@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>eSpring</title>
+</head>
+<header>
+    <ul>
+        <a href="www.google.com">News</a>
+        <a href="#">Register</a>
+        <a href="#">Login</a>
+    </ul>
+</header>
+<body>
+<h1 class="big-text">e-Spring barBank </h1>
+
+<form id="login-div">
+    <div><input type="text" id="userInput" placeholder="Username" required></div>
+    <div><input type="password" id="passInput" placeholder="password" required></div>
+    Register: <input type="checkbox" id="register-box">
+    <h5>Not a user? Check this box and type in your accounts details above</h5>
+    <button id="clicky">Clicky</button>
+</form>
+<p id="stuff"></p>
+</body>
+<script>
+    function post() {
+        const action = document.querySelector("#register-box").checked ? "create-account" : "login"
+        const sendData = {
+            user: document.querySelector("#userInput").value,
+            pass: document.querySelector("#passInput").value
+        }
+        const request = new Request('http://localhost:3001/bankAPI/'+action, {headers: {'Content-Type': 'application/json'},　method: 'POST', body: JSON.stringify(sendData)});
+        fetch(request).then(response => response.text()).then(data => document.querySelector("#stuff").textContent = data);
+    }
+    document.querySelector("#clicky").addEventListener("click", function(){post()});
+</script>
+</html>
