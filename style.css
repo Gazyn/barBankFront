@@ -6,7 +6,9 @@
 }
 
 header {
-    border: 1px solid red;
+    border: 1px solid blue;
+    padding: 0;
+    margin: 0;
 }
 
 ul {
@@ -18,9 +20,33 @@ ul {
     margin-left: 15%;
 
 }
-li {
+a{
     list-style: none;
-    border: 1px solid red;
+    color: black;
     font-size: 22px;
+    text-decoration: none;
 
+}
+
+#login-div {
+    border: 1px solid black;
+    margin-left:25%;
+    margin-right: 25%;
+    text-align: center;
+    padding: 20px;
+
+}
+/*--Shit about to get real--*/
+
+#userInput,
+#passInput {
+    outline: none;
+    border-bottom: 1px solid gray;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    border: none;
+    font-size: 22px;
+    margin-bottom: 16px;
 }

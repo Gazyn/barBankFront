@@ -6,23 +6,25 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>eSpring</title>
 </head>
 <header>
     <ul>
-        <li >News</li>
-        <li>Register</li>
-        <li>Log In</li>
+        <a href="www.google.com">News</a>
+        <a href="#">Register</a>
+        <a href="#">Login</a>
     </ul>
 </header>
 <body>
-<h1 class="big-text">eSpring barBank </h1>
-Register: <input type="checkbox" id="register-box">
-<div id="login-div">
-    <div>Username: <input type="text" id="userInput"></div>
-    <div>Password: <input type="password" id="passInput"></div>
+<h1 class="big-text">e-Spring barBank </h1>
+
+<form id="login-div">
+    <div><input type="text" id="userInput" placeholder="Username" required></div>
+    <div><input type="password" id="passInput" placeholder="password" required></div>
+    Register: <input type="checkbox" id="register-box">
+    <h5>Not a user? Check this box and type in your accounts details above</h5>
     <button id="clicky">Clicky</button>
-</div>
+</form>
 <p id="stuff"></p>
 </body>
 <script>
