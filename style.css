@@ -1,0 +1,26 @@
+.big-text {
+    text-align: center;
+    font-size: 52px;
+    font-family: "Times New Roman";
+    margin-top: 60px;
+}
+
+header {
+    border: 1px solid red;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+
+}
+li {
+    list-style: none;
+    border: 1px solid red;
+    font-size: 22px;
+
+}
