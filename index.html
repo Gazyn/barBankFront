@@ -53,7 +53,7 @@
         res = JSON.parse(res);
         const textDisplay = document.querySelector("#text-display")
         switch(res.status) {
-            case 111: //login success
+            case 111: // login: success
                 textDisplay.textContent = "Successfully logged in, "+res.user+"!";
                 loginData.isIn = true;
                 loginData.user = res.user;
@@ -62,38 +62,45 @@
                 document.querySelector("#logout-button").style.display = "inline";
                 localStorage.setItem("loginData", JSON.stringify(loginData));
                 break;
-            case 211: //login fail 1
+            case 211: // login: user doesn't exist
                 textDisplay.textContent = "That user doesn't exist!";
                 break;
-            case 212: //login fail 2
+            case 212: // login: incorrect password
                 textDisplay.textContent = "Incorrect password!";
                 break;
-            case 121: //register success
+            case 121: // create-account: success
                 textDisplay.textContent = "Successfully registered, "+res.user+"!";
                 break;
-            case 221: //register fail 1
+            case 221: // create-account: user already exists
                 textDisplay.textContent = "That username is already in use!";
                 break;
-            case 131: //check token success/auto login success
+            case 131: // check-token: success
                 textDisplay.textContent = "Automatically logged in as "+res.user+"!";
                 document.querySelector("#header-login").textContent = "Logged in: "+loginData.user;
                 document.querySelector("#logout-button").style.display = "inline";
                 break;
-            case 231: //check token fail 1
+            case 231: // check-token: user doesn't exist
+                textDisplay.textContent = "check-token: Account doesn't exist. Server restarted?"
+                resetLoginData();
+                break;
+            case 232: // check-token: token expired
                 textDisplay.textContent = "Your session has expired. Please log in again.";
                 resetLoginData();
                 break;
-            case 232:
-                textDisplay.textContent = "Failed to automatically log in params are "+res.receivedString+", "+res.expectedString;
+            case 233: // check-token: invalid token
+                textDisplay.textContent = "check-token: Invalid token. Report this bug please.";
+                resetLoginData();
                 break;
-            case 141:
+            case 141: // logout: success
                 textDisplay.textContent = "Logged out successfully.";
                 resetLoginData();
                 break;
-            case 241:
-                textDisplay.textContent = "Invalid login token. You are logged out.";
+            case 241: // logout: Account doesn't exist
+                textDisplay.textContent = "logout: Account doesn't exist. Server restarted?";
                 resetLoginData();
                 break;
+            case 242: // logout: Account exists but token is invalid
+                textDisplay.textContent = "logout: Account exists but token is invalid. Report this bug please."
         }
     }
     function post(action, type) {
