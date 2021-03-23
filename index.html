@@ -12,7 +12,8 @@
     <ul>
         <a href="#">News</a>
         <a href="#">Register</a>
-        <a href="#" id="login-button">Login</a>
+        <a href="#" id="header-login">Login</a>
+        <button id="logout-button" onclick="post('logout', 'userstring')">Log out?</button>
     </ul>
 </header>
 <body>
@@ -20,10 +21,9 @@
 
 <div id="login-div">
     <div><input type="text" id="userInput" placeholder="Username" required></div>
-    <div><input type="password" id="passInput" placeholder="password" required></div>
-    Register: <input type="checkbox" id="register-box">
-    <h5>Not a user? Check this box and type in your accounts details above</h5>
-    <button id="submit-button">Submit</button>
+    <div><input type="password" id="passInput" placeholder="Password" required></div>
+    <button id="login-button" onclick="post('login', 'userpass')">Login</button>
+    <button id="register-button" onclick="post('create-account', 'userpass')">Register</button>
 </div>
 <p id="text-display"></p>
 </body>
@@ -33,14 +33,21 @@
         user: "",
         string: ""
     }
+    function resetLoginData() {
+        loginData = {
+            isIn: false,
+            user: "",
+            string: ""
+        }
+        localStorage.removeItem("loginData");
+        document.querySelector("#header-login").textContent = "Login";
+        document.querySelector("#logout-button").style.display = "none";
+    }
     if(localStorage.hasOwnProperty("loginData")) {
         loginData = JSON.parse(localStorage.getItem("loginData"));
     }
     if(loginData.isIn === true) {
-        document.querySelector("#login-button").textContent = "Logged in: "+loginData.user;
-        document.querySelector("#login-button").style["font-size"] = "20px";
-        console.log("Posting with "+JSON.stringify(loginData));
-        post("check-token");
+        post("check-token", "userstring");
     }
     function handleResponse(res) {
         res = JSON.parse(res);
@@ -51,9 +58,8 @@
                 loginData.isIn = true;
                 loginData.user = res.user;
                 loginData.string = res.string;
-                document.querySelector("#login-button").textContent = "Logged in: "+loginData.user;
-                document.querySelector("#login-button").style["font-size"] = "20px";
-                localStorage.removeItem("loginData");
+                document.querySelector("#header-login").textContent = "Logged in: "+loginData.user;
+                document.querySelector("#logout-button").style.display = "inline";
                 localStorage.setItem("loginData", JSON.stringify(loginData));
                 break;
             case 211: //login fail 1
@@ -68,33 +74,44 @@
             case 221: //register fail 1
                 textDisplay.textContent = "That username is already in use!";
                 break;
-            case 131: //check token success
-                textDisplay.textContent = "Automatically logged in, "+res.user+"!";
+            case 131: //check token success/auto login success
+                textDisplay.textContent = "Automatically logged in as "+res.user+"!";
+                document.querySelector("#header-login").textContent = "Logged in: "+loginData.user;
+                document.querySelector("#logout-button").style.display = "inline";
                 break;
             case 231: //check token fail 1
+                textDisplay.textContent = "Your session has expired. Please log in again.";
+                resetLoginData();
+                break;
+            case 232:
                 textDisplay.textContent = "Failed to automatically log in params are "+res.receivedString+", "+res.expectedString;
+                break;
+            case 141:
+                textDisplay.textContent = "Logged out successfully.";
+                resetLoginData();
+                break;
+            case 241:
+                textDisplay.textContent = "Invalid login token. You are logged out.";
+                resetLoginData();
                 break;
         }
     }
-    function post(action) {
+    function post(action, type) {
         let sendData = {}
-        if(action === undefined) {
-            action = document.querySelector("#register-box").checked ? "create-account" : "login"
+        if(type === "userpass") {
             sendData = {
                 user: document.querySelector("#userInput").value,
                 pass: document.querySelector("#passInput").value
             }
         }
-        if(action === "check-token") {
+        if(type === "userstring") {
             sendData = {
                 user: loginData.user,
                 string: loginData.string
             }
         }
-        console.log(sendData)
         const request = new Request('http://localhost:3001/bankAPI/'+action, {headers: {'Content-Type': 'application/json'},　method: 'POST', body: JSON.stringify(sendData)});
         fetch(request).then(response => response.text()).then(data => handleResponse(data));
     }
-    document.querySelector("#submit-button").addEventListener("click", function(){post()});
 </script>
 </html>

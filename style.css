@@ -20,7 +20,8 @@ ul {
     margin-left: 15%;
 
 }
-a{
+
+a {
     list-style: none;
     color: black;
     font-size: 22px;
@@ -34,7 +35,10 @@ a{
     margin-right: 25%;
     text-align: center;
     padding: 20px;
+}
 
+#logout-button {
+    display: none;
 }
 /*--Shit about to get real--*/
 
