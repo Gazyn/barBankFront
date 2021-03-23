@@ -10,33 +10,91 @@
 </head>
 <header>
     <ul>
-        <a href="www.google.com">News</a>
+        <a href="#">News</a>
         <a href="#">Register</a>
-        <a href="#">Login</a>
+        <a href="#" id="login-button">Login</a>
     </ul>
 </header>
 <body>
 <h1 class="big-text">e-Spring barBank </h1>
 
-<form id="login-div">
+<div id="login-div">
     <div><input type="text" id="userInput" placeholder="Username" required></div>
     <div><input type="password" id="passInput" placeholder="password" required></div>
     Register: <input type="checkbox" id="register-box">
     <h5>Not a user? Check this box and type in your accounts details above</h5>
-    <button id="clicky">Clicky</button>
-</form>
-<p id="stuff"></p>
+    <button id="submit-button">Submit</button>
+</div>
+<p id="text-display"></p>
 </body>
 <script>
-    function post() {
-        const action = document.querySelector("#register-box").checked ? "create-account" : "login"
-        const sendData = {
-            user: document.querySelector("#userInput").value,
-            pass: document.querySelector("#passInput").value
-        }
-        const request = new Request('http://localhost:3001/bankAPI/'+action, {headers: {'Content-Type': 'application/json'},　method: 'POST', body: JSON.stringify(sendData)});
-        fetch(request).then(response => response.text()).then(data => document.querySelector("#stuff").textContent = data);
+    let loginData = {
+        isIn: false,
+        user: "",
+        string: ""
     }
-    document.querySelector("#clicky").addEventListener("click", function(){post()});
+    if(localStorage.hasOwnProperty("loginData")) {
+        loginData = JSON.parse(localStorage.getItem("loginData"));
+    }
+    if(loginData.isIn === true) {
+        document.querySelector("#login-button").textContent = "Logged in: "+loginData.user;
+        document.querySelector("#login-button").style["font-size"] = "20px";
+        console.log("Posting with "+JSON.stringify(loginData));
+        post("check-token");
+    }
+    function handleResponse(res) {
+        res = JSON.parse(res);
+        const textDisplay = document.querySelector("#text-display")
+        switch(res.status) {
+            case 111: //login success
+                textDisplay.textContent = "Successfully logged in, "+res.user+"!";
+                loginData.isIn = true;
+                loginData.user = res.user;
+                loginData.string = res.string;
+                document.querySelector("#login-button").textContent = "Logged in: "+loginData.user;
+                document.querySelector("#login-button").style["font-size"] = "20px";
+                localStorage.removeItem("loginData");
+                localStorage.setItem("loginData", JSON.stringify(loginData));
+                break;
+            case 211: //login fail 1
+                textDisplay.textContent = "That user doesn't exist!";
+                break;
+            case 212: //login fail 2
+                textDisplay.textContent = "Incorrect password!";
+                break;
+            case 121: //register success
+                textDisplay.textContent = "Successfully registered, "+res.user+"!";
+                break;
+            case 221: //register fail 1
+                textDisplay.textContent = "That username is already in use!";
+                break;
+            case 131: //check token success
+                textDisplay.textContent = "Automatically logged in, "+res.user+"!";
+                break;
+            case 231: //check token fail 1
+                textDisplay.textContent = "Failed to automatically log in params are "+res.receivedString+", "+res.expectedString;
+                break;
+        }
+    }
+    function post(action) {
+        let sendData = {}
+        if(action === undefined) {
+            action = document.querySelector("#register-box").checked ? "create-account" : "login"
+            sendData = {
+                user: document.querySelector("#userInput").value,
+                pass: document.querySelector("#passInput").value
+            }
+        }
+        if(action === "check-token") {
+            sendData = {
+                user: loginData.user,
+                string: loginData.string
+            }
+        }
+        console.log(sendData)
+        const request = new Request('http://localhost:3001/bankAPI/'+action, {headers: {'Content-Type': 'application/json'},　method: 'POST', body: JSON.stringify(sendData)});
+        fetch(request).then(response => response.text()).then(data => handleResponse(data));
+    }
+    document.querySelector("#submit-button").addEventListener("click", function(){post()});
 </script>
 </html>
