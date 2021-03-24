@@ -1,24 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
 .big-text {
     text-align: center;
     font-size: 52px;
     font-family: "Times New Roman";
     margin-top: 60px;
-}
-
-header {
-    border: 1px solid blue;
-    padding: 0;
-    margin: 0;
-}
-
-ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0;
-    margin-right: 15%;
-    margin-left: 15%;
-
 }
 
 a {
@@ -30,27 +16,211 @@ a {
 }
 
 #login-div {
-    border: 1px solid black;
+    border: 3px solid black;
     margin-left:25%;
     margin-right: 25%;
     text-align: center;
     padding: 20px;
+    border-radius: 15px;
+}
+
+#login-button {
+    font-family: 'Ubuntu', sans-serif;
+    width: 170px;
+    height: 40px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 3px solid black;
+    background: #fff;
+    color: black;
+    border-radius: 40px;
+}
+
+#register-button {
+    font-family: 'Ubuntu', sans-serif;
+    width: 170px;
+    height: 40px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 3px solid black;
+    background: #fff;
+    color: black;
+    border-radius: 40px;
 }
 
 #logout-button {
-    display: none;
+    font-family: 'Ubuntu', sans-serif;
+    float: right;
+    width: 170px;
+    height: 40px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 3px solid black;
+    background: #fff;
+    color: black;
+    border-radius: 40px;
+    margin-right: 2%;
+
 }
 /*--Shit about to get real--*/
 
 #userInput,
 #passInput {
     outline: none;
-    border-bottom: 1px solid gray;
-    background: transparent;
     display: flex;
     flex-direction: column;
     width: 400px;
     border: none;
     font-size: 22px;
     margin-bottom: 16px;
+
 }
+
+#text-display {
+    text-align:center;
+    font-size: 32px;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    height: 1200px;
+}
+
+header {
+    background: #111;
+}
+
+.headline {
+    position: relative;
+    height: 100px;
+    color: #fff;
+    text-align: center;
+    background: url("panorama-2646143_1920.jpg") no-repeat center center;
+    background-size: cover;
+}
+.headline:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: rgba(17, 17, 17, 0.5);
+}
+
+.inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    z-index: 10;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-animation: fade-in 0.75s 0.25s ease-in forwards;
+    animation: fade-in 0.75s 0.25s ease-in forwards;
+}
+.inner h1 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.2em;
+}
+.inner p {
+    margin: 0;
+    font-size: 1.4em;
+    font-style: italic;
+    font-family: serif;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+}
+
+nav.scrolled {
+    background: rgba(17, 17, 17, 0.9);
+}
+
+
+nav ul {
+
+    margin-right: 10%;
+    margin-left: 10%;
+}
+nav li {
+    list-style: none;
+    float: left;
+}
+
+
+nav a {
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+    margin: 5px 0 0 20px;
+    display: block;
+}
+nav a:hover {
+    color: #ededed;
+}
+
+.logo {
+    height: 75px;
+    float: right;
+}
+.logo:before, .logo:after {
+    position: fixed;
+    font-size: 7em;
+    font-weight: 300;
+    line-height: 0;
+    color: #fff;
+    top: 25px;
+}
+.logo:before {
+    content: '\00BB';
+    left: 20px;
+}
+.logo:after {
+    content: '\00AB';
+    left: 34px;
+}
+
+section {
+    width: 100%;
+    margin: 25px auto;
+    padding: 20px;
+    max-width: 800px;
+    font-size: 1.2em;
+    line-height: 1.6em;
+    box-sizing: border-box;
+}
+
+@-webkit-keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
