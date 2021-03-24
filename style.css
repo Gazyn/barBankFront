@@ -66,8 +66,18 @@ a {
     color: black;
     border-radius: 40px;
     margin-right: 2%;
-
 }
+
+#login-status-div {
+    width: 170px;
+    float: right;
+}
+
+#header-login { /* text above login button showing status */
+    color: #fff;
+    margin: 0 0 10px 0; /* 10px bottom, reset others */
+}
+
 /*--Shit about to get real--*/
 
 #userInput,
