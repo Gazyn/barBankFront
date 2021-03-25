@@ -43,7 +43,7 @@ function resetLoginData() {
     document.querySelector("#logout-button").style.display = "none";
 }
 
-//resetLoginData();
+resetLoginData();
 
 if(localStorage.hasOwnProperty("loginData")) {
     loginData = JSON.parse(localStorage.getItem("loginData"));
@@ -52,6 +52,10 @@ if(localStorage.hasOwnProperty("loginData")) {
 function handleResponse(res) {
     res = JSON.parse(res);
     console.log(res);
+    if (res.error) {
+        textDisplay.textContent = "Error: "+res.error;
+        return;
+    }
     switch (res.source) {
         case "login":
             textDisplay.textContent = "Logging on...";
@@ -69,6 +73,10 @@ function handleResponse(res) {
             localStorage.setItem("loginData", JSON.stringify(loginData));
             document.querySelector("#header-login").textContent = "Logged in: "+res.name;
             document.querySelector("#logout-button").style.display = "inline";
+            break;
+        case "logout":
+            textDisplay.textContent = "Logged out successfully, "+loginData.user;
+            resetLoginData();
             break;
     }
 }
